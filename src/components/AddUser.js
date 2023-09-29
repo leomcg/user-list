@@ -1,10 +1,12 @@
 import { useState } from "react";
 
 import styles from "./AddUser.module.css";
+import ErrorModal from "./ErrorModal";
 
 const AddUser = (props) => {
   const [username, setUsername] = useState("");
   const [userAge, setUserAge] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const onUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -16,7 +18,15 @@ const AddUser = (props) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log(username, userAge);
+    if (
+      username.trim().length === 0 ||
+      userAge.trim().length === 0 ||
+      +userAge < 0
+    ) {
+      console.log("invalid form");
+      setShowModal(true);
+      return;
+    }
     props.onAddUser({ username, userAge });
     setUsername("");
     setUserAge("");
@@ -45,6 +55,7 @@ const AddUser = (props) => {
           Add User
         </button>
       </form>
+      {showModal ? <ErrorModal /> : ""}
     </div>
   );
 };

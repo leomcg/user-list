@@ -21,7 +21,7 @@ const AddUser = (props) => {
     if (!username.trim().length || !userAge.trim().length || +userAge < 0) {
       return;
     }
-    console.log(username, userAge);
+    props.onAddUser({ username, userAge, id: Math.random() });
     setUsername("");
     setUserAge("");
   };
